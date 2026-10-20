@@ -1,0 +1,4 @@
+/vendor/
+.env
+/assets/documents/*.pdf
+!/assets/documents/.gitkeep
