@@ -66,6 +66,14 @@ if ($section === 'hero') $section = 'overview';
 if ($section === 'profile') $section = 'contact';
 if (!isset($tables[$section]) && !in_array($section, ['overview', 'about', 'contact', 'skills_copy', 'gallery_copy'], true)) $section = 'overview';
 $message = '';
+$instagramColumnReady = false;
+try {
+    $hasInstagramColumn = db()->query("SHOW COLUMNS FROM profile LIKE 'instagram_url'")->fetch();
+    if (!$hasInstagramColumn) db()->exec('ALTER TABLE profile ADD COLUMN instagram_url VARCHAR(500) NULL AFTER linkedin_url');
+    $instagramColumnReady = true;
+} catch (PDOException $exception) {
+    $message = 'Instagram link setup needs the upgrade-social-links.sql migration.';
+}
 $contactPortraitsTableReady = true;
 try { db()->query('SELECT id FROM contact_portraits LIMIT 1'); }
 catch (PDOException $exception) { $contactPortraitsTableReady = false; }
@@ -74,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_check();
     $action = $_POST['action'] ?? '';
     if (in_array($action, ['overview', 'about', 'contact', 'skills_copy', 'gallery_copy'], true)) {
-        $fields = $action === 'overview' ? ['hero_label', 'hero_title', 'intro', 'site_name', 'name', 'age', 'university', 'programme'] : ($action === 'about' ? ['about_title', 'about', 'about_extra'] : ($action === 'contact' ? ['portrait_url', 'email', 'github_url', 'linkedin_url', 'resume_url'] : ($action === 'skills_copy' ? ['skills_label', 'skills_title', 'skills_emphasis', 'skills_intro', 'skills_empty_text'] : ['gallery_title', 'gallery_intro'])));
+        $fields = $action === 'overview' ? ['hero_label', 'hero_title', 'intro', 'site_name', 'name', 'age', 'university', 'programme'] : ($action === 'about' ? ['about_title', 'about', 'about_extra'] : ($action === 'contact' ? array_values(array_filter(['portrait_url', 'email', 'github_url', 'linkedin_url', $instagramColumnReady ? 'instagram_url' : null, 'resume_url'])) : ($action === 'skills_copy' ? ['skills_label', 'skills_title', 'skills_emphasis', 'skills_intro', 'skills_empty_text'] : ['gallery_title', 'gallery_intro'])));
         $set = implode(',', array_map(fn($field) => "`$field`=?", $fields));
         $stmt = db()->prepare("UPDATE profile SET $set WHERE id=1");
         $stmt->execute(array_map(fn($field) => trim($_POST[$field] ?? ''), $fields));
@@ -169,7 +177,7 @@ if (isset($_GET['edit'], $tables[$section])) {
     $edit = $stmt->fetch();
 }
 $recordFields = $section === 'projects' ? ['name'=>'Name','category'=>'Category','description'=>'Description','technologies'=>'Technologies (comma separated)','image_url'=>'Image path / URL','image_alt'=>'Image alt text','role'=>'Role and contribution','status'=>'Status','demo_url'=>'Demo URL','source_url'=>'Source URL','case_study_url'=>'Case study URL','sort_order'=>'Display order','is_published'=>'Published'] : ($section === 'skills' ? ['category'=>'Category','name'=>'Skill','level'=>'Level / context','sort_order'=>'Display order','is_published'=>'Published'] : ($section === 'gallery' ? ['title'=>'Title','caption'=>'Caption','image_url'=>'Image path','image_alt'=>'Image alt text','sort_order'=>'Display order','is_published'=>'Published'] : ['type'=>'Type','period'=>'Period','title'=>'Title','organization'=>'Organization','details'=>'Details','sort_order'=>'Display order','is_published'=>'Published']));
-$contentFields = $section === 'overview' ? ['hero_label'=>'Small heading','hero_title'=>'Main headline','intro'=>'Introduction','site_name'=>'Header / navbar name','name'=>'Profile name','age'=>'Age','university'=>'University','programme'=>'Programme of study'] : ($section === 'about' ? ['about_title'=>'Section heading','about'=>'Main paragraph','about_extra'=>'Supporting paragraph'] : ($section === 'contact' ? ['portrait_url'=>'Contact portrait image path (also used in Intro)','email'=>'Email','github_url'=>'GitHub URL','linkedin_url'=>'LinkedIn URL','resume_url'=>'Resume path or URL'] : ($section === 'skills_copy' ? ['skills_title'=>'Heading line','skills_emphasis'=>'Emphasized heading line','skills_intro'=>'Short introduction'] : ($section === 'gallery_copy' ? ['gallery_title'=>'Heading','gallery_intro'=>'Short introduction'] : []))));
+$contentFields = $section === 'overview' ? ['hero_label'=>'Small heading','hero_title'=>'Main headline','intro'=>'Introduction','site_name'=>'Header / navbar name','name'=>'Profile name','age'=>'Age','university'=>'University','programme'=>'Programme of study'] : ($section === 'about' ? ['about_title'=>'Section heading','about'=>'Main paragraph','about_extra'=>'Supporting paragraph'] : ($section === 'contact' ? ['portrait_url'=>'Contact portrait image path (also used in Intro)','email'=>'Email','github_url'=>'GitHub URL','linkedin_url'=>'LinkedIn URL'] + ($instagramColumnReady ? ['instagram_url'=>'Instagram URL'] : []) + ['resume_url'=>'Canva Resume URL or path'] : ($section === 'skills_copy' ? ['skills_title'=>'Heading line','skills_emphasis'=>'Emphasized heading line','skills_intro'=>'Short introduction'] : ($section === 'gallery_copy' ? ['gallery_title'=>'Heading','gallery_intro'=>'Short introduction'] : []))));
 $editCategory = null;
 if ($section === 'skills' && isset($_GET['edit_category'])) {
     $stmt = db()->prepare('SELECT * FROM skill_categories WHERE id=?');
