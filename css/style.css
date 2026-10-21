@@ -344,11 +344,11 @@
   [data-reveal]{transition-duration:1.5s;transition-delay:140ms}
   .timeline-section .section-heading[data-reveal],.timeline-section .timeline-item[data-reveal]{transition-duration:1.65s}
   .skills-track .skill-group{transition-duration:1.15s,1.25s,.35s;transition-delay:calc(var(--skill-index,0) * 140ms)}
-  .skills-track.is-mobile-grid .skill-group.is-expanded .skill-title-row{flex-wrap:wrap}
-  .skills-track.is-mobile-grid .skill-logos{display:flex!important;flex:0 0 100%;width:100%;justify-content:flex-start;flex-wrap:wrap;max-height:0;margin-top:0!important;overflow:hidden;opacity:0;transition:max-height .7s cubic-bezier(.2,.72,.2,1),margin-top .55s ease,opacity .5s ease}
-  .skills-track.is-mobile-grid .skill-group.is-expanded .skill-logos{max-height:90px;margin-top:12px!important;opacity:1}
-  .skills-track.is-mobile-grid .skill-details{display:block!important;max-height:0;margin-top:0!important;overflow:hidden;opacity:0;transition:max-height .75s cubic-bezier(.2,.72,.2,1),margin-top .55s ease,opacity .55s ease}
-  .skills-track.is-mobile-grid .skill-group.is-expanded .skill-details{max-height:1000px;margin-top:10px!important;opacity:1}
+  .skills-track.is-mobile-grid .skill-title-row{flex-wrap:wrap}
+  .skills-track.is-mobile-grid .skill-logos{display:flex!important;flex:0 0 100%;width:100%;min-width:0;justify-content:flex-start;flex-wrap:wrap;max-height:0;margin-top:0!important;overflow:hidden;visibility:hidden;opacity:0;transition:max-height .72s cubic-bezier(.2,.72,.2,1),margin-top .58s ease,opacity .55s ease}
+  .skills-track.is-mobile-grid .skill-group.is-expanded .skill-logos{max-height:52px;margin-top:12px!important;visibility:visible;opacity:1}
+  .skills-track.is-mobile-grid .skill-details{display:block!important;max-height:0;margin-top:0!important;overflow:hidden;opacity:0;transition:max-height .9s cubic-bezier(.2,.72,.2,1),margin-top .58s ease,opacity .6s ease}
+  .skills-track.is-mobile-grid .skill-group.is-expanded .skill-details{max-height:360px;margin-top:10px!important;opacity:1}
 }
 @media(prefers-reduced-motion:reduce){[data-reveal],.skills-track .skill-group,.skills-track.is-mobile-grid .skill-logos,.skills-track.is-mobile-grid .skill-details{transition:none!important;translate:none!important}.skills-track .skill-group{opacity:1}}
 .timeline-section .section-heading[data-reveal],.timeline-section .timeline-item[data-reveal]{transition-duration:1.5s;transition-timing-function:cubic-bezier(.18,.72,.18,1)}
