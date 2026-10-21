@@ -11,15 +11,15 @@ A responsive PHP and MySQL portfolio with an admin dashboard. It uses plain PHP,
 ## Setup
 
 1. Create the database and tables by importing `database.sql` in phpMyAdmin or the MySQL command line.
-   If you already have the previous database installed, run `upgrade-hero-about.sql` (if not already applied) and `upgrade-lanyard-intro.sql` once in phpMyAdmin to add the editable Hero, About, and lanyard introduction fields.
+   If you already have the previous database installed, run `upgrade-hero-about.sql` (if not already applied), `upgrade-lanyard-intro.sql`, `upgrade-skills-gallery.sql`, `upgrade-contact-portraits.sql`, and `upgrade-site-name.sql` once in phpMyAdmin against the database used by the site. Contact portraits are stored in the new `contact_portraits` table.
 2. Configure `DB_HOST`, `DB_NAME`, `DB_USER`, and `DB_PASS` in your PHP environment. Defaults are `127.0.0.1`, `myportfolio`, `root`, and an empty password for a local WampServer setup.
 3. Open `/myportfolio/` for the public site and `/myportfolio/admin/` for the dashboard.
 
 ## Content management
 
-The dashboard has separate Hero, About, and Profile & links editors. Profile & links also lets you update the intro badge's name, age, university, programme, and portrait path. It can add, edit, publish/unpublish, and delete projects, skills, and education/experience entries. Project records support image uploads (JPG, PNG, WebP, GIF; up to 5 MB), alt text, technologies, role, status, and optional demo/source/case-study links. Uploaded project images are saved in `assets/projects/`. Place your resume at `assets/documents/resume.pdf` or set a different URL in Profile & links.
+The dashboard has ordered Overview, About, Projects, Skills, Journey, Gallery, and Contact pages. Contact lets you upload up to 10 overlapping portrait images (JPG, PNG, WebP, or GIF; up to 5 MB each); clicking the public portrait advances through them and loops. Project and Gallery lists include image thumbnails. Gallery lets you edit its heading and introduction and manage images, captions, alt text, order, and visibility. Gallery images (JPG, PNG, WebP, GIF; up to 8 MB) are saved in `assets/gallery/`. The dashboard can also add, edit, publish/unpublish, and delete projects and education/experience entries. Project uploads support JPG, PNG, WebP, and GIF up to 5 MB; they include alt text, technologies, role, status, and optional demo/source/case-study links. Place your resume at `assets/documents/resume.pdf` or set a different URL in Contact.
 
-The initial project cards and current diploma are seeded from the supplied brief. Missing details are explicitly marked for completion. Skills are intentionally empty until confirmed. Replace “Your Name”, add verified contact details, and update project descriptions, roles, technologies, images, and status through the admin dashboard.
+The initial project cards, five Skills categories, and current diploma are seeded from the supplied brief. No Gallery images are seeded; the public section uses the profile portrait until Gallery images are uploaded. Missing details are explicitly marked for completion. Skills are intentionally empty until confirmed. Replace “Your Name”, add verified contact details, and update project descriptions, roles, technologies, images, and status through the admin dashboard.
 
 ## Structure
 
@@ -35,9 +35,10 @@ js/animations.js          IntersectionObserver reveals
 js/projects.js            Dedicated project client module
 assets/images/            Image assets and preview placeholder
 assets/projects/          Optional project media
+assets/gallery/           Uploaded gallery media
 assets/documents/         Resume document location
 ```
 
 ## Maintenance
 
-Add project fields in `database.sql` and the admin form in `admin/index.php` when extending project data. Keep output escaped through `e()`, use prepared statements for database writes, and add any new public styles to the appropriate CSS file. Commit source and SQL changes to Git; keep environment secrets and private resume files out of the repository.
+Add project or Gallery fields in `database.sql` and the admin form in `admin/index.php` when extending content. Keep output escaped through `e()`, use prepared statements for database writes, and add any new public styles to the appropriate CSS file. Commit source and SQL changes to Git; keep environment secrets and private resume files out of the repository.

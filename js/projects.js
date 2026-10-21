@@ -14,8 +14,11 @@
     tags: carousel.querySelector('[data-project-tags]'),
   };
   const pagination = carousel.querySelector('[data-project-pagination]');
+  const stage = carousel.querySelector('.project-stage');
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let active = 0;
+  let touchStart = null;
+  let suppressClickUntil = 0;
   const dots = slides.map((slide, index) => {
     const dot = document.createElement('button');
     dot.type = 'button';
@@ -72,6 +75,7 @@
 
   slides.forEach((slide, i) => {
     slide.addEventListener('click', (event) => {
+      if (Date.now() < suppressClickUntil) { event.preventDefault(); return; }
       if (!event.target.closest('[data-project-open]')) select(i);
     });
     slide.addEventListener('keydown', (event) => {
@@ -83,8 +87,62 @@
     if (event.key === 'ArrowLeft') { event.preventDefault(); select(active - 1); }
     if (event.key === 'ArrowRight') { event.preventDefault(); select(active + 1); }
   });
+  if (stage && ('ontouchstart' in window || navigator.maxTouchPoints > 0)) {
+    stage.addEventListener('touchstart', (event) => {
+      const touch = event.changedTouches[0];
+      touchStart = { x: touch.clientX, y: touch.clientY, id: touch.identifier };
+    }, { passive: true });
+    document.addEventListener('touchend', (event) => {
+      if (!touchStart) return;
+      const touch = [...event.changedTouches].find((item) => item.identifier === touchStart.id);
+      if (!touch) return;
+      const dx = touch.clientX - touchStart.x;
+      const dy = touch.clientY - touchStart.y;
+      touchStart = null;
+      if (Math.abs(dx) < 28 || Math.abs(dx) < Math.abs(dy) * 1.1) return;
+      suppressClickUntil = Date.now() + 650;
+      select(active + (dx < 0 ? 1 : -1));
+    }, { passive: true });
+    document.addEventListener('touchcancel', () => { touchStart = null; }, { passive: true });
+  } else if (stage && window.PointerEvent) {
+    stage.addEventListener('pointerdown', (event) => {
+      if (event.pointerType === 'mouse') return;
+      touchStart = { x: event.clientX, y: event.clientY, id: event.pointerId };
+    }, { passive: true });
+    document.addEventListener('pointerup', (event) => {
+      if (!touchStart || event.pointerId !== touchStart.id) return;
+      const dx = event.clientX - touchStart.x;
+      const dy = event.clientY - touchStart.y;
+      touchStart = null;
+      if (Math.abs(dx) < 28 || Math.abs(dx) < Math.abs(dy) * 1.1) return;
+      suppressClickUntil = Date.now() + 650;
+      select(active + (dx < 0 ? 1 : -1));
+    }, { passive: true });
+    document.addEventListener('pointercancel', () => { touchStart = null; }, { passive: true });
+  }
   if (slides.length < 2) {
     pagination.hidden = true;
+  }
+
+  // Return the gallery to its opening project when the user comes back to it.
+  const projectSection = document.querySelector('.projects-section');
+  if (projectSection && 'IntersectionObserver' in window) {
+    let hasLeftProjects = false;
+    const projectObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) {
+          hasLeftProjects = true;
+        } else if (hasLeftProjects) {
+          hasLeftProjects = false;
+          select(0);
+          slides.forEach((slide) => {
+            slide.style.setProperty('--tilt-x', '0deg');
+            slide.style.setProperty('--tilt-y', '0deg');
+          });
+        }
+      });
+    }, { threshold: .08 });
+    projectObserver.observe(projectSection);
   }
 
   if (matchMedia('(hover: hover) and (pointer: fine)').matches && !reduceMotion) {

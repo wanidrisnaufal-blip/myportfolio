@@ -111,3 +111,14 @@ html,body{overflow-x:clip}
   .project-detail .project-description{margin:5px 0 8px}
   .project-detail .project-links{margin-top:8px}
 }
+/* Restore a more balanced project-card proportion. */
+@media(min-width:901px){.project-slide{width:64%}.project-detail,.project-controls{width:66%}}
+@media(min-width:641px) and (max-width:900px){.project-slide{width:74%}.project-detail,.project-controls{width:78%}}
+@media(max-width:640px){.project-slide{width:80%}.project-detail,.project-controls{width:calc(100% - 16px)}}
+
+@media(max-width:640px){.project-stage{touch-action:pan-y}.project-slide .image-arrow{display:block;width:auto;height:auto;min-height:0;padding:8px 11px;font-size:10px;line-height:1.2}.gallery-pin{grid-template-rows:minmax(0,1fr) minmax(96px,auto);align-items:stretch}.gallery-stage{grid-row:1;min-height:0}.gallery-details{grid-row:2;align-items:start}.gallery-progress{height:100%;min-height:88px}.gallery-info-stack{min-height:88px}.gallery-info h3{margin:4px 0 6px}.gallery-info .eyebrow{margin-bottom:4px}}
+@media(max-width:640px){.gallery-details{height:auto}.gallery-info-stack{height:auto}}
+
+@media(max-width:640px){.project-stage{touch-action:pan-y pinch-zoom;user-select:none;-webkit-user-select:none}.project-slide .image-arrow{display:block!important;width:auto!important;height:auto!important;min-width:0!important;min-height:0!important;padding:8px 10px!important;border:0!important;background:transparent!important;color:#fff!important;font:600 10px/1.2 var(--display)!important;white-space:nowrap;text-shadow:0 1px 6px #0009;z-index:5}.project-slide .image-arrow[hidden]{display:none!important}}
+.project-slide .image-arrow{display:flex!important;align-items:center;justify-content:center;width:auto!important;height:auto!important;min-width:0!important;min-height:0!important;padding:8px 10px!important;border:0!important;border-radius:0!important;background:transparent!important;color:#fff!important;font:600 10px/1.2 var(--display)!important;text-decoration:none;white-space:nowrap;text-shadow:0 1px 6px #0009;box-shadow:none!important;z-index:5}
+.project-slide .image-arrow[hidden]{display:none!important}
