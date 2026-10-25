@@ -6,3 +6,11 @@ function e(?string $value): string { return htmlspecialchars($value ?? '', ENT_Q
 function csrf_token(): string { return $_SESSION['csrf'] ??= bin2hex(random_bytes(32)); }
 function csrf_check(): void { if (!hash_equals(csrf_token(), $_POST['csrf'] ?? '')) { http_response_code(400); exit('Invalid request token. Please go back and try again.'); } }
 function require_admin(): void { if (empty($_SESSION['admin_id'])) { header('Location: login.php'); exit; } }
+function site_copy(string $key, string $fallback = ''): string {
+    static $copy = null;
+    if ($copy === null) {
+        try { $copy = db()->query('SELECT content_key,content_value FROM site_content')->fetchAll(PDO::FETCH_KEY_PAIR); }
+        catch (PDOException $exception) { $copy = []; }
+    }
+    return (string)($copy[$key] ?? $fallback);
+}

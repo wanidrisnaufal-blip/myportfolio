@@ -5,3 +5,97 @@
 .section-copy-editor{max-width:720px;margin:0 0 28px}
 
 .row-media{width:72px;height:54px;flex:0 0 72px;overflow:hidden;background:#eee;border:1px solid #ddd}.row-media img{width:100%;height:100%;object-fit:cover;display:block}.row-copy{min-width:0;flex:1}.contact-upload{margin-top:20px}.contact-upload h2{display:flex;justify-content:space-between;align-items:center}.contact-upload h2 small{font-size:11px;color:#777;font-weight:400}.contact-upload input[type=file]{display:block;margin-top:8px}.contact-upload button:disabled{opacity:.45;cursor:not-allowed}.contact-admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-top:18px}.contact-admin-card{background:#fff;border:1px solid #e1e1e1;padding:8px}.contact-admin-card img{display:block;width:100%;height:130px;object-fit:cover}.contact-admin-card form{margin-top:8px}.contact-admin-card .danger{background:none;color:#8b3434;padding:6px 0;font-size:11px}
+.category-preview-logos{display:flex;align-items:center;gap:8px;min-width:0;flex:1}.category-preview-logos img{width:28px;height:28px;object-fit:contain}.category-preview-logos strong{margin-left:5px}.contact-admin-card form{display:grid;grid-template-columns:1fr auto;gap:6px;align-items:center}.contact-admin-card form input[type=file]{min-width:0;width:100%;font-size:10px}.contact-admin-card form button{padding:8px;font-size:10px}.contact-admin-card form button[name=direction]{padding:7px 9px;margin-right:5px}
+
+/* Minimal collapsible Admin sidebar */
+.admin-shell{--sidebar-width:248px;min-height:100vh;display:grid;grid-template-columns:var(--sidebar-width) minmax(0,1fr);transition:grid-template-columns .25s ease}
+.admin-shell.is-collapsed{--sidebar-width:76px}
+.sidebar{height:100vh;position:sticky;top:0;z-index:20;display:flex;flex-direction:column;padding:20px 14px;background:#fff;border-right:1px solid #e6e6e6;overflow:hidden}
+.sidebar-brand{height:44px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 8px 16px;border-bottom:1px solid #eee}
+.sidebar-brand>a{display:flex;align-items:center;gap:11px;min-width:0;color:#171717;text-decoration:none;font-weight:700;white-space:nowrap}
+.brand-mark{width:28px;height:28px;flex:0 0 28px;display:grid;place-items:center;background:#171717;color:white;border-radius:8px;font-size:12px}
+.sidebar-collapse{width:28px;height:28px;flex:0 0 28px;padding:0;background:transparent;color:#777;font-size:23px;line-height:1}
+.side-nav{display:grid;gap:5px;padding-top:22px}
+.side-nav a,.sidebar-secondary{min-height:42px;padding:0 10px;display:flex;align-items:center;gap:12px;border-radius:8px;color:#686868;text-decoration:none;font-size:13px;white-space:nowrap;transition:background .18s ease,color .18s ease}
+.side-nav a:hover,.sidebar-secondary:hover{background:#f4f4f4;color:#171717}
+.side-nav a.selected{background:#f0f0f0;color:#171717;font-weight:600}
+.nav-mark{width:24px;height:24px;flex:0 0 24px;display:grid;place-items:center;border:1px solid #e3e3e3;border-radius:7px;color:#777;font-size:10px;font-weight:600}
+.side-nav a.selected .nav-mark{border-color:#171717;background:#171717;color:#fff}
+.sidebar-bottom{margin-top:auto;padding-top:14px;border-top:1px solid #eee;display:grid;gap:4px}
+.sidebar-bottom form{margin:0}
+.sidebar-secondary{width:100%;border:0;background:transparent;text-align:left;cursor:pointer;font:inherit}
+.admin-shell.is-collapsed .sidebar{padding-inline:10px}
+.admin-shell.is-collapsed .sidebar-brand{justify-content:center;padding-inline:0}
+.admin-shell.is-collapsed .sidebar-brand>a{gap:0}
+.admin-shell.is-collapsed .sidebar-brand .nav-label,.admin-shell.is-collapsed .side-nav .nav-label,.admin-shell.is-collapsed .sidebar-bottom .nav-label{display:none}
+.admin-shell.is-collapsed .sidebar-collapse{position:absolute;right:7px;top:26px;transform:rotate(180deg);font-size:20px}
+.admin-shell.is-collapsed .side-nav a,.admin-shell.is-collapsed .sidebar-secondary{justify-content:center;padding-inline:0}
+.admin-shell.is-collapsed .nav-mark{width:34px;height:34px;flex-basis:34px}
+.admin-main{min-width:0;display:flex;flex-direction:column}
+.admin-topbar{min-height:92px;padding:18px clamp(22px,4vw,56px);display:flex;align-items:center;gap:18px;background:#fff;border-bottom:1px solid #e6e6e6}
+.topbar-title{min-width:0}
+.topbar-title>p{margin:0 0 3px;color:#888;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+.topbar-title h1{margin:0;font-size:24px;letter-spacing:-.7px}
+.admin-user{margin-left:auto;color:#777;font-size:12px}
+.mobile-menu-toggle{display:none;align-items:center;gap:8px;background:#f2f2f2;color:#333;border-radius:8px;padding:10px 12px}
+.sidebar-backdrop{display:none}
+.dashboard{width:min(1320px,calc(100% - 56px));margin:0 auto;padding:24px 0 64px}
+.dashboard>p{margin:0 0 22px;color:#777}
+.dashboard>h1{font-size:32px}
+.layout{grid-template-columns:minmax(0,1fr) minmax(320px,370px);gap:24px}
+.editor{border-radius:10px;box-shadow:0 4px 18px rgba(0,0,0,.025)}
+.row{border-radius:8px;border:1px solid #e6e6e6;margin-bottom:8px}
+.row:last-child{border-bottom:1px solid #e6e6e6}
+.list-head{margin:24px 0 12px}
+@media(max-width:960px){.layout{grid-template-columns:1fr}.editor{order:-1}.section-copy-editor{max-width:none}}
+@media(max-width:760px){
+  .admin-shell,.admin-shell.is-collapsed{display:block}
+  .sidebar{width:min(280px,85vw);height:100dvh;position:fixed;left:0;top:0;bottom:0;transform:translateX(-105%);transition:transform .25s ease;box-shadow:12px 0 32px rgba(0,0,0,.08)}
+  .admin-shell.is-mobile-open .sidebar{transform:translateX(0)}
+  .admin-shell.is-collapsed .sidebar{padding:20px 14px}
+  .admin-shell.is-collapsed .sidebar-brand{justify-content:space-between;padding-inline:8px}
+  .admin-shell.is-collapsed .sidebar-brand>a{gap:11px}
+  .admin-shell.is-collapsed .sidebar-brand .nav-label,.admin-shell.is-collapsed .side-nav .nav-label,.admin-shell.is-collapsed .sidebar-bottom .nav-label{display:inline}
+  .admin-shell.is-collapsed .sidebar-collapse{position:static;transform:none;font-size:23px}
+  .admin-shell.is-collapsed .side-nav a,.admin-shell.is-collapsed .sidebar-secondary{justify-content:flex-start;padding-inline:10px}
+  .admin-shell.is-collapsed .nav-mark{width:24px;height:24px;flex-basis:24px}
+  .admin-shell.is-mobile-open .sidebar-backdrop{display:block;position:fixed;inset:0;z-index:19;width:100%;height:100%;padding:0;background:rgba(0,0,0,.3)}
+  .admin-topbar{min-height:76px;padding:14px 18px;gap:12px}
+  .mobile-menu-toggle{display:inline-flex}
+  .topbar-title h1{font-size:21px}
+  .admin-user{max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px}
+  .dashboard{width:calc(100% - 36px);padding-top:20px}
+}
+@media(max-width:480px){.dashboard{margin:0 auto}.admin-topbar{padding-inline:12px}.mobile-menu-toggle{padding:9px;font-size:11px}.admin-user{max-width:92px}.row{align-items:flex-start}.row-actions{gap:8px}}
+@media(prefers-reduced-motion:reduce){.admin-shell,.sidebar,.side-nav a,.sidebar-secondary{transition:none}}
+
+/* Compact, consistent editors across every admin section */
+.dashboard>.editor,
+.dashboard>.section-copy-editor{width:min(100%,980px);max-width:980px;margin:0 0 20px}
+.editor{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:18px;row-gap:2px;padding:18px}
+.editor h2,.editor>button,.editor>.cancel,.editor>p,
+.editor> .image-preview,
+.editor label:has(textarea),
+.editor label:has(input[type="file"]),
+.editor label:has(.image-preview){grid-column:1/-1}
+.editor h2{margin:0 0 5px;font-size:17px}
+.editor label{min-width:0;margin:8px 0;font-size:11px;line-height:1.45}
+.editor input:not([type=checkbox]),.editor textarea,.editor select{padding:8px 9px;margin-top:5px;font-size:12px}
+.editor textarea{min-height:68px}
+.editor button{justify-self:start;margin-top:6px;padding:10px 13px}
+.editor .image-preview{margin:6px 0 10px;padding:6px}
+.editor .image-preview img{max-height:160px}
+.editor .hint{margin:3px 0 8px}
+.section-copy-editor{margin-bottom:20px}
+.layout .editor{grid-template-columns:1fr;padding:16px}
+.contact-upload{margin-top:16px}
+.contact-upload h2{display:flex;justify-content:space-between;align-items:center}
+.contact-admin-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
+.contact-admin-card img{height:112px}
+@media(max-width:760px){
+  .dashboard>.editor,.dashboard>.section-copy-editor{width:100%;max-width:none}
+  .editor{grid-template-columns:1fr;padding:15px}
+  .editor h2,.editor>button,.editor>.cancel,.editor>p,.editor>.image-preview,
+  .editor label:has(textarea),.editor label:has(input[type="file"]),.editor label:has(.image-preview){grid-column:1}
+  .layout .editor{grid-template-columns:1fr}
+}

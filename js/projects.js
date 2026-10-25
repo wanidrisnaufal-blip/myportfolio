@@ -12,6 +12,7 @@
     description: carousel.querySelector('[data-project-description]'),
     role: carousel.querySelector('[data-project-role]'),
     tags: carousel.querySelector('[data-project-tags]'),
+    links: carousel.querySelector('[data-project-links]'),
   };
   const pagination = carousel.querySelector('[data-project-pagination]');
   const stage = carousel.querySelector('.project-stage');
@@ -43,6 +44,26 @@
       chip.textContent = tag;
       detail.tags.append(chip);
     });
+
+    detail.links.replaceChildren();
+    [
+      [slide.dataset.demo, carousel.dataset.demoLabel || 'Live demo'],
+      [slide.dataset.source, carousel.dataset.sourceLabel || 'Source code'],
+      [slide.dataset.caseStudy, carousel.dataset.caseLabel || 'Case study'],
+    ].forEach(([href, label]) => {
+      if (!href) return;
+      const safeHref = /^(https?:\/\/|\/|\.\.?\/|#)/i.test(href) && !/^javascript:/i.test(href);
+      if (!safeHref) return;
+      const link = document.createElement('a');
+      link.href = href;
+      link.textContent = label;
+      if (/^https?:\/\//i.test(href)) {
+        link.target = '_blank';
+        link.rel = 'noopener';
+      }
+      detail.links.append(link);
+    });
+    detail.links.hidden = detail.links.childElementCount === 0;
 
     const openLink = slide.querySelector('[data-project-open]');
     const href = slide.dataset.demo || '';
